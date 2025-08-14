@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StorageService, User } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
-import { Heart, MessageCircle, MapPin, Clock, User as UserIcon, LogOut } from "lucide-react";
+import { Heart, MessageCircle, MapPin, Clock, User as UserIcon, LogOut, Settings, CheckCircle } from "lucide-react";
 
 const Feed = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -55,14 +55,24 @@ const Feed = () => {
               <p className="text-white/80 text-sm">Olá, {currentUser.nome}!</p>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleLogout}
-            className="text-white hover:bg-white/20"
-          >
-            <LogOut className="h-5 w-5" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate("/edit-profile")}
+              className="text-white hover:bg-white/20"
+            >
+              <Settings className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleLogout}
+              className="text-white hover:bg-white/20"
+            >
+              <LogOut className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -118,6 +128,21 @@ const Feed = () => {
                           Trabalha: {user.horario_trabalho}
                         </span>
                       </div>
+
+                      {user.disponivel_cuidar && (
+                        <div className="flex items-center gap-2">
+                          <CheckCircle className="h-4 w-4 text-green-600" />
+                          <Badge variant="secondary" className="bg-green-100 text-green-800">
+                            Disponível para cuidar
+                          </Badge>
+                        </div>
+                      )}
+
+                      {user.horario_disponibilidade && (
+                        <div className="text-xs text-muted-foreground bg-muted/50 p-2 rounded">
+                          <strong>Disponibilidade:</strong> {user.horario_disponibilidade}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

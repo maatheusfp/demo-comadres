@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
 import Feed from "./pages/Feed";
 import Chat from "./pages/Chat";
+import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="/feed" element={<Feed />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
             <Route path="/chat/:userId" element={<Chat />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

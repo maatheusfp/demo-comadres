@@ -7,6 +7,9 @@ export interface User {
   localizacao: string;
   email: string;
   senha: string;
+  disponivel_cuidar?: boolean;
+  horario_disponibilidade?: string;
+  observacoes_disponibilidade?: string;
 }
 
 export interface Message {
@@ -31,7 +34,10 @@ const INITIAL_USERS: User[] = [
     horario_trabalho: "08:00-17:00",
     localizacao: "São Paulo - SP",
     email: "maria@example.com",
-    senha: "1234"
+    senha: "1234",
+    disponivel_cuidar: true,
+    horario_disponibilidade: "18:00-20:00",
+    observacoes_disponibilidade: "Posso cuidar de crianças até 8 anos nos fins de semana"
   },
   {
     id: 2,
@@ -41,7 +47,10 @@ const INITIAL_USERS: User[] = [
     horario_trabalho: "09:00-18:00",
     localizacao: "Rio de Janeiro - RJ",
     email: "ana@example.com",
-    senha: "abcd"
+    senha: "abcd",
+    disponivel_cuidar: false,
+    horario_disponibilidade: "",
+    observacoes_disponibilidade: ""
   },
   {
     id: 3,
@@ -108,6 +117,26 @@ export class StorageService {
       return user;
     }
     return null;
+  }
+
+  static updateUser(updatedUser: User): User {
+    const users = this.getUsers();
+    const userIndex = users.findIndex(u => u.id === updatedUser.id);
+    
+    if (userIndex !== -1) {
+      users[userIndex] = updatedUser;
+      localStorage.setItem('usuarios', JSON.stringify(users));
+      
+      // Update current user if it's the same user
+      const currentUser = this.getCurrentUser();
+      if (currentUser && currentUser.id === updatedUser.id) {
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+      }
+      
+      return updatedUser;
+    }
+    
+    throw new Error('Usuário não encontrado');
   }
 
   static getCurrentUser(): User | null {
