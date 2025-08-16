@@ -147,14 +147,23 @@ const Feed = () => {
                   </div>
                 </div>
 
-                <Button 
-                  onClick={() => handleStartChat(user)}
-                  className="w-full"
-                  variant="maternal"
-                >
-                  <MessageCircle className="h-4 w-4 mr-2" />
-                  Iniciar Conversa
-                </Button>
+                <div className="flex gap-3">
+                  <Button
+                    onClick={() => navigate(`/profile/${user.id}`)}
+                    variant="outline"
+                    className="flex-1 border-accent/30 text-primary hover:bg-primary/10"
+                  >
+                    Ver Perfil
+                  </Button>
+                  <Button 
+                    onClick={() => handleStartChat(user)}
+                    className="flex-1"
+                    variant="maternal"
+                  >
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    Conversar
+                  </Button>
+                </div>
               </Card>
             ))}
           </div>

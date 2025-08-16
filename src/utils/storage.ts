@@ -1,3 +1,12 @@
+export interface Review {
+  id: number;
+  avaliador_id: number;
+  avaliador_nome: string;
+  estrelas: number;
+  comentario: string;
+  data: number;
+}
+
 export interface User {
   id: number;
   nome: string;
@@ -10,6 +19,7 @@ export interface User {
   disponivel_cuidar?: boolean;
   horario_disponibilidade?: string;
   observacoes_disponibilidade?: string;
+  avaliacoes?: Review[];
 }
 
 export interface Message {
@@ -187,5 +197,47 @@ export class StorageService {
     return chats.filter(chat => 
       chat.id_usuario_1 === userId || chat.id_usuario_2 === userId
     );
+  }
+
+  static addReview(userId: number, review: Omit<Review, 'id'>): User {
+    const users = this.getUsers();
+    const userIndex = users.findIndex(u => u.id === userId);
+    
+    if (userIndex !== -1) {
+      const user = users[userIndex];
+      if (!user.avaliacoes) {
+        user.avaliacoes = [];
+      }
+      
+      const newReview = { ...review, id: Date.now() };
+      user.avaliacoes.push(newReview);
+      
+      users[userIndex] = user;
+      localStorage.setItem('usuarios', JSON.stringify(users));
+      
+      return user;
+    }
+    
+    throw new Error('Usuário não encontrado');
+  }
+
+  static getUserById(userId: number): User | null {
+    const users = this.getUsers();
+    return users.find(u => u.id === userId) || null;
+  }
+
+  static hasUserReviewed(userId: number, reviewerId: number): boolean {
+    const user = this.getUserById(userId);
+    if (!user || !user.avaliacoes) return false;
+    
+    return user.avaliacoes.some(review => review.avaliador_id === reviewerId);
+  }
+
+  static getUserAverageRating(userId: number): number {
+    const user = this.getUserById(userId);
+    if (!user || !user.avaliacoes || user.avaliacoes.length === 0) return 0;
+    
+    const total = user.avaliacoes.reduce((sum, review) => sum + review.estrelas, 0);
+    return Math.round((total / user.avaliacoes.length) * 10) / 10;
   }
 }
