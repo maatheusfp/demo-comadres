@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { StorageService, User } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
 import { Heart, MessageCircle, MapPin, Clock, User as UserIcon, LogOut, Settings, CheckCircle, Shield } from "lucide-react";
+import ChatList from "@/components/ChatList";
 
 const Feed = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -56,6 +57,7 @@ const Feed = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <ChatList currentUser={currentUser} />
             <Button
               variant="ghost"
               size="icon"
