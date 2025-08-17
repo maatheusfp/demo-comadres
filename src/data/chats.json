@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "id_usuario_1": 1,
+    "id_usuario_2": 2,
+    "mensagens": [
+      { "remetente": 1, "texto": "Oi, tudo bem?", "timestamp": 1734521400000 },
+      { "remetente": 2, "texto": "Tudo sim! E você?", "timestamp": 1734521430000 }
+    ]
+  }
+]

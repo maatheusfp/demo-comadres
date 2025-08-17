@@ -1,0 +1,143 @@
+[
+  {
+    "id": 1,
+    "nome": "Maria Silva",
+    "idade_mae": 32,
+    "faixa_filho": "3-5 anos",
+    "horario_trabalho": "08:00-17:00",
+    "localizacao": "São Paulo - SP",
+    "email": "maria@example.com",
+    "senha": "1234",
+    "disponivel_cuidar": true,
+    "horario_disponibilidade": "18:00-20:00",
+    "observacoes_disponibilidade": "Posso cuidar de crianças até 8 anos nos fins de semana",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "12.345.678-9",
+      "cpf_mae": "123.456.789-00",
+      "historico_profissional": "Professora há 8 anos",
+      "referencias": "Escola Municipal ABC",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Ana Clara",
+          "idade": 4,
+          "documentos": "RG: 98.765.432-1",
+          "alergias": "Alergia a amendoim e frutos do mar",
+          "medicamentos": "Antialérgico quando necessário",
+          "restricoes_tela": true,
+          "tempo_max_tela": "1 hora por dia",
+          "atividades_permitidas": ["Desenhar", "Brincar no parque", "Ler histórias", "Música"],
+          "observacoes_especiais": "Gosta muito de histórias antes de dormir. Não gosta de barulhos altos."
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "nome": "Ana Souza",
+    "idade_mae": 28,
+    "faixa_filho": "1-2 anos",
+    "horario_trabalho": "09:00-18:00",
+    "localizacao": "Rio de Janeiro - RJ",
+    "email": "ana@example.com",
+    "senha": "abcd",
+    "disponivel_cuidar": false,
+    "horario_disponibilidade": "",
+    "observacoes_disponibilidade": "",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "11.222.333-4",
+      "cpf_mae": "111.222.333-44",
+      "historico_profissional": "Enfermeira há 5 anos",
+      "referencias": "Hospital São José",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Pedro",
+          "idade": 2,
+          "documentos": "Certidão de nascimento",
+          "alergias": "Lactose",
+          "medicamentos": "Vitamina D diária",
+          "restricoes_tela": true,
+          "tempo_max_tela": "30 minutos por dia",
+          "atividades_permitidas": ["Brincar com blocos", "Correr no quintal", "Banho de mangueira"],
+          "observacoes_especiais": "Ainda usa fralda durante o dia. Dorme bem após o banho."
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "nome": "Fernanda Lima",
+    "idade_mae": 35,
+    "faixa_filho": "6-8 anos",
+    "horario_trabalho": "07:00-16:00",
+    "localizacao": "Belo Horizonte - MG",
+    "email": "fernanda@example.com",
+    "senha": "123456",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "33.444.555-6",
+      "cpf_mae": "333.444.555-66",
+      "historico_profissional": "Advogada há 10 anos",
+      "referencias": "Escritório Lima & Associados",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Lucas",
+          "idade": 7,
+          "documentos": "RG: 77.888.999-0",
+          "alergias": "",
+          "medicamentos": "",
+          "restricoes_tela": true,
+          "tempo_max_tela": "2 horas por dia",
+          "atividades_permitidas": ["Futebol", "Videogame", "Lego", "Natação"],
+          "observacoes_especiais": "Muito ativo, gosta de esportes. Tem aulas de natação terças e quintas."
+        },
+        {
+          "nome": "Julia",
+          "idade": 5,
+          "documentos": "RG: 55.666.777-8",
+          "alergias": "Pólen de flores",
+          "medicamentos": "Antialérgico na primavera",
+          "restricoes_tela": true,
+          "tempo_max_tela": "1 hora por dia",
+          "atividades_permitidas": ["Dança", "Pintura", "Bonecas", "Culinária"],
+          "observacoes_especiais": "Adora cozinhar e fazer atividades artísticas. Tem aula de dança aos sábados."
+        }
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "nome": "Carla Mendes",
+    "idade_mae": 30,
+    "faixa_filho": "0-1 ano",
+    "horario_trabalho": "08:30-17:30",
+    "localizacao": "Curitiba - PR",
+    "email": "carla@example.com",
+    "senha": "senha",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "44.555.666-7",
+      "cpf_mae": "444.555.666-77",
+      "historico_profissional": "Designer gráfica há 6 anos",
+      "referencias": "Agência Criativa Digital",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Sofia",
+          "idade": 8,
+          "documentos": "Certidão de nascimento",
+          "alergias": "",
+          "medicamentos": "Vitaminas conforme pediatra",
+          "restricoes_tela": false,
+          "tempo_max_tela": "",
+          "atividades_permitidas": ["Mamar", "Dormir", "Brincar no tapete", "Banho"],
+          "observacoes_especiais": "Bebê muito tranquila. Mama de 3 em 3 horas. Dorme bem durante o dia."
+        }
+      ]
+    }
+  }
+]

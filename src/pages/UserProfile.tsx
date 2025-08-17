@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Star, MessageCircle, Clock, MapPin, User as UserIcon } from "lucide-react";
+import { ArrowLeft, Star, MessageCircle, Clock, MapPin, User as UserIcon, Baby, Shield, AlertTriangle, Pill } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -118,6 +118,7 @@ const UserProfile = () => {
 
   const averageRating = StorageService.getUserAverageRating(user.id);
   const hasReviewed = StorageService.hasUserReviewed(user.id, currentUser.id);
+  const canViewChildData = StorageService.canViewChildData(currentUser.id, user.id);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-maternal-light to-maternal-soft p-4">
@@ -240,6 +241,107 @@ const UserProfile = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Child Data Section - Only visible if user has permission */}
+        {canViewChildData && user.dados_verificacao?.filhos && user.dados_verificacao.filhos.length > 0 && (
+          <Card className="border-maternal-accent/20 bg-white/80 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-lg text-maternal-primary flex items-center gap-2">
+                <Baby size={20} />
+                Dados dos Filhos
+                <Badge variant="outline" className="text-xs text-green-600 border-green-200">
+                  Acesso Autorizado
+                </Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {user.dados_verificacao.filhos.map((filho, index) => (
+                <div key={index} className="border border-maternal-accent/10 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-semibold text-maternal-primary">{filho.nome}</h4>
+                    <Badge variant="secondary" className="text-xs">
+                      {filho.idade} anos
+                    </Badge>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 gap-3 text-sm">
+                    {filho.alergias && (
+                      <div className="flex items-start gap-2">
+                        <AlertTriangle size={16} className="text-red-500 flex-shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-medium text-red-700">Alergias:</span>
+                          <p className="text-red-600">{filho.alergias}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {filho.medicamentos && (
+                      <div className="flex items-start gap-2">
+                        <Pill size={16} className="text-blue-500 flex-shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-medium text-blue-700">Medicamentos:</span>
+                          <p className="text-blue-600">{filho.medicamentos}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-start gap-2">
+                      <Shield size={16} className="text-purple-500 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="font-medium text-purple-700">Restrições de tela:</span>
+                        <p className="text-purple-600">
+                          {filho.restricoes_tela ? `Sim - máximo ${filho.tempo_max_tela}` : "Não"}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {filho.atividades_permitidas.length > 0 && (
+                      <div>
+                        <span className="font-medium text-maternal-primary">Atividades permitidas:</span>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {filho.atividades_permitidas.map((atividade, i) => (
+                            <Badge key={i} variant="outline" className="text-xs">
+                              {atividade}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {filho.observacoes_especiais && (
+                      <div>
+                        <span className="font-medium text-maternal-primary">Observações especiais:</span>
+                        <p className="text-muted-foreground mt-1">{filho.observacoes_especiais}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Access Request Notice - Only show if user doesn't have permission */}
+        {!canViewChildData && (
+          <Card className="border-maternal-accent/20 bg-white/80 backdrop-blur-sm">
+            <CardContent className="text-center py-6">
+              <Baby size={32} className="text-muted-foreground mx-auto mb-3" />
+              <h3 className="font-medium text-maternal-primary mb-2">Dados dos Filhos</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Para ver informações detalhadas sobre os filhos de {user.nome}, você precisa solicitar acesso via chat.
+              </p>
+              <Button
+                onClick={handleStartChat}
+                variant="outline"
+                size="sm"
+                className="text-maternal-primary border-maternal-primary hover:bg-maternal-primary/10"
+              >
+                <MessageCircle size={16} className="mr-2" />
+                Conversar e Solicitar Acesso
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Reviews Section */}
         {user.avaliacoes && user.avaliacoes.length > 0 && (

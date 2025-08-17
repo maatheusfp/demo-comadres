@@ -7,6 +7,16 @@ export interface Review {
   data: number;
 }
 
+export interface ChildDataRequest {
+  id: number;
+  solicitante_id: number;
+  solicitante_nome: string;
+  destinatario_id: number;
+  status: 'pendente' | 'aceito' | 'recusado';
+  data_solicitacao: number;
+  data_resposta?: number;
+}
+
 export interface VerificationData {
   // Dados da mãe
   rg_mae: string;
@@ -43,12 +53,18 @@ export interface User {
   avaliacoes?: Review[];
   verificado?: boolean;
   dados_verificacao?: VerificationData;
+  permissoes_dados_filhos?: number[]; // IDs dos usuários que podem ver dados dos filhos
 }
 
 export interface Message {
   remetente: number;
   texto: string;
   timestamp?: number;
+  tipo?: 'texto' | 'solicitacao_dados_filhos';
+  dados_solicitacao?: {
+    request_id: number;
+    status: 'pendente' | 'aceito' | 'recusado';
+  };
 }
 
 export interface Chat {
@@ -119,26 +135,26 @@ const INITIAL_CHATS: Chat[] = [
   }
 ];
 
+import usersData from '../data/users.json';
+import chatsData from '../data/chats.json';
+import currentUserData from '../data/current-user.json';
+
 export class StorageService {
   static initializeData() {
-    if (!localStorage.getItem('usuarios')) {
-      localStorage.setItem('usuarios', JSON.stringify(INITIAL_USERS));
-    }
-    if (!localStorage.getItem('chats')) {
-      localStorage.setItem('chats', JSON.stringify(INITIAL_CHATS));
-    }
+    // Data is already initialized in JSON files
+    // This method is kept for compatibility but does nothing
   }
 
   static getUsers(): User[] {
-    const users = localStorage.getItem('usuarios');
-    return users ? JSON.parse(users) : [];
+    return usersData as User[];
   }
 
   static addUser(user: Omit<User, 'id'>): User {
     const users = this.getUsers();
     const newUser = { ...user, id: Date.now() };
     users.push(newUser);
-    localStorage.setItem('usuarios', JSON.stringify(users));
+    // In a real implementation, you would write to the JSON file
+    // For now, this will only work during the session
     return newUser;
   }
 
@@ -146,7 +162,9 @@ export class StorageService {
     const users = this.getUsers();
     const user = users.find(u => u.email === email && u.senha === senha);
     if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
+      // In a real implementation, you would write to current-user.json
+      // For now, we'll use a module variable to track the current user
+      (globalThis as any).__currentUser = user;
       return user;
     }
     return null;
@@ -158,12 +176,12 @@ export class StorageService {
     
     if (userIndex !== -1) {
       users[userIndex] = updatedUser;
-      localStorage.setItem('usuarios', JSON.stringify(users));
+      // In a real implementation, you would write to users.json
       
       // Update current user if it's the same user
       const currentUser = this.getCurrentUser();
       if (currentUser && currentUser.id === updatedUser.id) {
-        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        (globalThis as any).__currentUser = updatedUser;
       }
       
       return updatedUser;
@@ -173,17 +191,15 @@ export class StorageService {
   }
 
   static getCurrentUser(): User | null {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
+    return (globalThis as any).__currentUser || currentUserData;
   }
 
   static logout() {
-    localStorage.removeItem('currentUser');
+    (globalThis as any).__currentUser = null;
   }
 
   static getChats(): Chat[] {
-    const chats = localStorage.getItem('chats');
-    return chats ? JSON.parse(chats) : [];
+    return [...(chatsData as Chat[]), ...((globalThis as any).__additionalChats || [])];
   }
 
   static getChatBetweenUsers(userId1: number, userId2: number): Chat | null {
@@ -205,13 +221,16 @@ export class StorageService {
         id_usuario_2: userId2,
         mensagens: []
       };
-      chats.push(chat);
+      // Store additional chats in memory during session
+      if (!(globalThis as any).__additionalChats) {
+        (globalThis as any).__additionalChats = [];
+      }
+      (globalThis as any).__additionalChats.push(chat);
     }
 
     const messageWithTimestamp = { ...message, timestamp: Date.now() };
     chat.mensagens.push(messageWithTimestamp);
     
-    localStorage.setItem('chats', JSON.stringify(chats));
     return chat;
   }
 
@@ -236,7 +255,7 @@ export class StorageService {
       user.avaliacoes.push(newReview);
       
       users[userIndex] = user;
-      localStorage.setItem('usuarios', JSON.stringify(users));
+      // In a real implementation, you would write to users.json
       
       return user;
     }
@@ -262,5 +281,129 @@ export class StorageService {
     
     const total = user.avaliacoes.reduce((sum, review) => sum + review.estrelas, 0);
     return Math.round((total / user.avaliacoes.length) * 10) / 10;
+  }
+
+  // Métodos para gerenciar solicitações de acesso aos dados dos filhos
+  static getChildDataRequests(): ChildDataRequest[] {
+    return (globalThis as any).__childDataRequests || [];
+  }
+
+  static createChildDataRequest(solicitanteId: number, destinatarioId: number): ChildDataRequest {
+    const solicitante = this.getUserById(solicitanteId);
+    if (!solicitante) throw new Error('Solicitante não encontrado');
+
+    // Verificar se já existe uma solicitação pendente
+    const existingRequest = this.getChildDataRequests().find(req => 
+      req.solicitante_id === solicitanteId && 
+      req.destinatario_id === destinatarioId && 
+      req.status === 'pendente'
+    );
+
+    if (existingRequest) {
+      throw new Error('Já existe uma solicitação pendente');
+    }
+
+    const newRequest: ChildDataRequest = {
+      id: Date.now(),
+      solicitante_id: solicitanteId,
+      solicitante_nome: solicitante.nome,
+      destinatario_id: destinatarioId,
+      status: 'pendente',
+      data_solicitacao: Date.now()
+    };
+
+    if (!(globalThis as any).__childDataRequests) {
+      (globalThis as any).__childDataRequests = [];
+    }
+    (globalThis as any).__childDataRequests.push(newRequest);
+
+    return newRequest;
+  }
+
+  static sendChildDataRequestMessage(solicitanteId: number, destinatarioId: number): Chat {
+    const request = this.createChildDataRequest(solicitanteId, destinatarioId);
+    const solicitante = this.getUserById(solicitanteId);
+    
+    const message: Message = {
+      remetente: solicitanteId,
+      texto: `${solicitante?.nome} gostaria de ter acesso aos dados dos seus filhos para poder cuidar melhor deles.`,
+      timestamp: Date.now(),
+      tipo: 'solicitacao_dados_filhos',
+      dados_solicitacao: {
+        request_id: request.id,
+        status: 'pendente'
+      }
+    };
+
+    return this.addMessage(solicitanteId, destinatarioId, message);
+  }
+
+  static respondToChildDataRequest(requestId: number, response: 'aceito' | 'recusado'): ChildDataRequest {
+    const requests = this.getChildDataRequests();
+    const requestIndex = requests.findIndex(req => req.id === requestId);
+    
+    if (requestIndex === -1) {
+      throw new Error('Solicitação não encontrada');
+    }
+
+    const request = requests[requestIndex];
+    request.status = response;
+    request.data_resposta = Date.now();
+
+    // Se aceito, adicionar permissão ao usuário
+    if (response === 'aceito') {
+      const destinatario = this.getUserById(request.destinatario_id);
+      if (destinatario) {
+        if (!destinatario.permissoes_dados_filhos) {
+          destinatario.permissoes_dados_filhos = [];
+        }
+        if (!destinatario.permissoes_dados_filhos.includes(request.solicitante_id)) {
+          destinatario.permissoes_dados_filhos.push(request.solicitante_id);
+          this.updateUser(destinatario);
+        }
+      }
+    }
+
+    // Atualizar mensagem no chat
+    this.updateChildDataRequestMessage(request);
+
+    return request;
+  }
+
+  static updateChildDataRequestMessage(request: ChildDataRequest) {
+    const chat = this.getChatBetweenUsers(request.solicitante_id, request.destinatario_id);
+    if (chat) {
+      const messageIndex = chat.mensagens.findIndex(msg => 
+        msg.dados_solicitacao?.request_id === request.id
+      );
+      
+      if (messageIndex !== -1) {
+        // Garantir que a mensagem é atualizada com o novo status
+        chat.mensagens[messageIndex].dados_solicitacao = {
+          request_id: request.id,
+          status: request.status
+        };
+        
+        // Forçar atualização da referência do array para trigger re-render
+        chat.mensagens = [...chat.mensagens];
+      }
+    }
+  }
+
+  static canViewChildData(viewerId: number, parentId: number): boolean {
+    const parent = this.getUserById(parentId);
+    if (!parent || !parent.permissoes_dados_filhos) return false;
+    
+    return parent.permissoes_dados_filhos.includes(viewerId);
+  }
+
+  static getUserPendingChildDataRequests(userId: number): ChildDataRequest[] {
+    return this.getChildDataRequests().filter(req => 
+      req.destinatario_id === userId && req.status === 'pendente'
+    );
+  }
+
+  static getRequestById(requestId: number): ChildDataRequest | null {
+    return this.getChildDataRequests().find(req => req.id === requestId) || null;
   }
 }
