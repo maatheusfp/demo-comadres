@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StorageService, User } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
-import { Heart, MessageCircle, MapPin, Clock, User as UserIcon, LogOut, Settings, CheckCircle } from "lucide-react";
+import { Heart, MessageCircle, MapPin, Clock, User as UserIcon, LogOut, Settings, CheckCircle, Shield } from "lucide-react";
 
 const Feed = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -152,6 +152,7 @@ const Feed = () => {
                     onClick={() => navigate(`/profile/${user.id}`)}
                     variant="outline"
                     className="flex-1 border-accent/30 text-primary hover:bg-primary/10"
+                    disabled={!currentUser.verificado}
                   >
                     Ver Perfil
                   </Button>
@@ -159,11 +160,21 @@ const Feed = () => {
                     onClick={() => handleStartChat(user)}
                     className="flex-1"
                     variant="maternal"
+                    disabled={!currentUser.verificado}
                   >
                     <MessageCircle className="h-4 w-4 mr-2" />
                     Conversar
                   </Button>
                 </div>
+                
+                {!currentUser.verificado && (
+                  <div className="mt-2 p-2 bg-orange-50 border border-orange-200 rounded-lg text-center">
+                    <div className="flex items-center justify-center gap-2 text-orange-700">
+                      <Shield className="h-4 w-4" />
+                      <span className="text-sm font-medium">Complete a verificação para interagir</span>
+                    </div>
+                  </div>
+                )}
               </Card>
             ))}
           </div>

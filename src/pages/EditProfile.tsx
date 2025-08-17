@@ -4,15 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { StorageService, User } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
-import { ArrowLeft, Save, User as UserIcon } from "lucide-react";
+import { ArrowLeft, Save, User as UserIcon, Shield } from "lucide-react";
+import VerificationModal from "@/components/VerificationModal";
 
 const EditProfile = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [formData, setFormData] = useState({
     nome: "",
     idade_mae: "",
@@ -261,6 +264,46 @@ const EditProfile = () => {
               )}
             </div>
 
+            {/* Seção de Verificação */}
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2">
+                Verificação de Segurança
+              </h2>
+              
+              <div className="p-4 bg-secondary/50 rounded-lg">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Shield className={`h-5 w-5 ${currentUser.verificado ? 'text-green-600' : 'text-orange-600'}`} />
+                    <span className="font-medium">
+                      Status: {currentUser.verificado ? 'Verificado' : 'Pendente'}
+                    </span>
+                  </div>
+                  {currentUser.verificado && (
+                    <Badge variant="secondary" className="bg-green-100 text-green-800">
+                      ✓ Verificado
+                    </Badge>
+                  )}
+                </div>
+                
+                <p className="text-sm text-muted-foreground mb-3">
+                  {currentUser.verificado 
+                    ? "Seu perfil foi verificado com sucesso. Você pode atualizar suas informações quando necessário."
+                    : "Complete a verificação para acessar todos os recursos da plataforma com segurança."
+                  }
+                </p>
+                
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setShowVerificationModal(true)}
+                  className="w-full"
+                >
+                  <Shield className="h-4 w-4 mr-2" />
+                  {currentUser.verificado ? "Atualizar Verificação" : "Iniciar Verificação"}
+                </Button>
+              </div>
+            </div>
+
             <Button 
               type="submit" 
               className="w-full" 
@@ -272,6 +315,19 @@ const EditProfile = () => {
             </Button>
           </form>
         </Card>
+
+        <VerificationModal
+          isOpen={showVerificationModal}
+          onClose={() => setShowVerificationModal(false)}
+          onComplete={() => {
+            setShowVerificationModal(false);
+            // Recarregar dados do usuário
+            const updatedUser = StorageService.getCurrentUser();
+            if (updatedUser) {
+              setCurrentUser(updatedUser);
+            }
+          }}
+        />
       </div>
     </div>
   );

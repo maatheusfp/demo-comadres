@@ -7,11 +7,13 @@ import { Card } from "@/components/ui/card";
 import { StorageService } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
 import { Heart } from "lucide-react";
+import VerificationModal from "@/components/VerificationModal";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -35,7 +37,13 @@ const Login = () => {
           title: "Login realizado!",
           description: `Bem-vinda, ${user.nome}!`,
         });
-        navigate("/feed");
+        
+        // Verificar se o usuário completou a verificação
+        if (!user.verificado) {
+          setShowVerificationModal(true);
+        } else {
+          navigate("/feed");
+        }
       } else {
         toast({
           title: "Erro no login",
@@ -121,6 +129,15 @@ const Login = () => {
             maria@example.com (senha: 1234)
           </p>
         </div>
+
+        <VerificationModal
+          isOpen={showVerificationModal}
+          onClose={() => setShowVerificationModal(false)}
+          onComplete={() => {
+            setShowVerificationModal(false);
+            navigate("/feed");
+          }}
+        />
       </div>
     </div>
   );

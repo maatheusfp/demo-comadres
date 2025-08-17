@@ -7,6 +7,27 @@ export interface Review {
   data: number;
 }
 
+export interface VerificationData {
+  // Dados da mãe
+  rg_mae: string;
+  cpf_mae: string;
+  historico_profissional: string;
+  referencias: string;
+  antecedentes_criminais: string;
+  // Dados dos filhos
+  filhos: Array<{
+    nome: string;
+    idade: number;
+    documentos: string;
+    alergias: string;
+    medicamentos: string;
+    restricoes_tela: boolean;
+    tempo_max_tela: string;
+    atividades_permitidas: string[];
+    observacoes_especiais: string;
+  }>;
+}
+
 export interface User {
   id: number;
   nome: string;
@@ -20,6 +41,8 @@ export interface User {
   horario_disponibilidade?: string;
   observacoes_disponibilidade?: string;
   avaliacoes?: Review[];
+  verificado?: boolean;
+  dados_verificacao?: VerificationData;
 }
 
 export interface Message {
