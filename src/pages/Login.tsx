@@ -132,7 +132,10 @@ const Login = () => {
 
         <VerificationModal
           isOpen={showVerificationModal}
-          onClose={() => setShowVerificationModal(false)}
+          onClose={() => {
+            setShowVerificationModal(false);
+            navigate("/feed");
+          }}
           onComplete={() => {
             setShowVerificationModal(false);
             navigate("/feed");
