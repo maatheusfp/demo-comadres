@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "nome": "Maria Silva",
+    "idade_mae": 32,
+    "faixa_filho": "3-5 anos",
+    "horario_trabalho": "08:00-17:00",
+    "localizacao": "São Paulo - SP",
+    "email": "maria@example.com",
+    "senha": "1234",
+    "disponivel_cuidar": true,
+    "horario_disponibilidade": "18:00-20:00",
+    "observacoes_disponibilidade": "Posso cuidar de crianças até 8 anos nos fins de semana"
+  },
+  {
+    "id": 2,
+    "nome": "Ana Souza",
+    "idade_mae": 28,
+    "faixa_filho": "1-2 anos",
+    "horario_trabalho": "09:00-18:00",
+    "localizacao": "Rio de Janeiro - RJ",
+    "email": "ana@example.com",
+    "senha": "abcd",
+    "disponivel_cuidar": false,
+    "horario_disponibilidade": "",
+    "observacoes_disponibilidade": ""
+  },
+  {
+    "id": 3,
+    "nome": "Fernanda Lima",
+    "idade_mae": 35,
+    "faixa_filho": "6-8 anos",
+    "horario_trabalho": "07:00-16:00",
+    "localizacao": "Belo Horizonte - MG",
+    "email": "fernanda@example.com",
+    "senha": "123456"
+  },
+  {
+    "id": 4,
+    "nome": "Carla Mendes",
+    "idade_mae": 30,
+    "faixa_filho": "0-1 ano",
+    "horario_trabalho": "08:30-17:30",
+    "localizacao": "Curitiba - PR",
+    "email": "carla@example.com",
+    "senha": "senha"
+  }
+]

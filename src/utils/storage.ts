@@ -119,26 +119,26 @@ const INITIAL_CHATS: Chat[] = [
   }
 ];
 
+import usersData from '../data/users.json';
+import chatsData from '../data/chats.json';
+import currentUserData from '../data/current-user.json';
+
 export class StorageService {
   static initializeData() {
-    if (!localStorage.getItem('usuarios')) {
-      localStorage.setItem('usuarios', JSON.stringify(INITIAL_USERS));
-    }
-    if (!localStorage.getItem('chats')) {
-      localStorage.setItem('chats', JSON.stringify(INITIAL_CHATS));
-    }
+    // Data is already initialized in JSON files
+    // This method is kept for compatibility but does nothing
   }
 
   static getUsers(): User[] {
-    const users = localStorage.getItem('usuarios');
-    return users ? JSON.parse(users) : [];
+    return usersData as User[];
   }
 
   static addUser(user: Omit<User, 'id'>): User {
     const users = this.getUsers();
     const newUser = { ...user, id: Date.now() };
     users.push(newUser);
-    localStorage.setItem('usuarios', JSON.stringify(users));
+    // In a real implementation, you would write to the JSON file
+    // For now, this will only work during the session
     return newUser;
   }
 
@@ -146,7 +146,9 @@ export class StorageService {
     const users = this.getUsers();
     const user = users.find(u => u.email === email && u.senha === senha);
     if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
+      // In a real implementation, you would write to current-user.json
+      // For now, we'll use a module variable to track the current user
+      (globalThis as any).__currentUser = user;
       return user;
     }
     return null;
@@ -158,12 +160,12 @@ export class StorageService {
     
     if (userIndex !== -1) {
       users[userIndex] = updatedUser;
-      localStorage.setItem('usuarios', JSON.stringify(users));
+      // In a real implementation, you would write to users.json
       
       // Update current user if it's the same user
       const currentUser = this.getCurrentUser();
       if (currentUser && currentUser.id === updatedUser.id) {
-        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        (globalThis as any).__currentUser = updatedUser;
       }
       
       return updatedUser;
@@ -173,17 +175,15 @@ export class StorageService {
   }
 
   static getCurrentUser(): User | null {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
+    return (globalThis as any).__currentUser || currentUserData;
   }
 
   static logout() {
-    localStorage.removeItem('currentUser');
+    (globalThis as any).__currentUser = null;
   }
 
   static getChats(): Chat[] {
-    const chats = localStorage.getItem('chats');
-    return chats ? JSON.parse(chats) : [];
+    return [...(chatsData as Chat[]), ...((globalThis as any).__additionalChats || [])];
   }
 
   static getChatBetweenUsers(userId1: number, userId2: number): Chat | null {
@@ -205,13 +205,16 @@ export class StorageService {
         id_usuario_2: userId2,
         mensagens: []
       };
-      chats.push(chat);
+      // Store additional chats in memory during session
+      if (!(globalThis as any).__additionalChats) {
+        (globalThis as any).__additionalChats = [];
+      }
+      (globalThis as any).__additionalChats.push(chat);
     }
 
     const messageWithTimestamp = { ...message, timestamp: Date.now() };
     chat.mensagens.push(messageWithTimestamp);
     
-    localStorage.setItem('chats', JSON.stringify(chats));
     return chat;
   }
 
@@ -236,7 +239,7 @@ export class StorageService {
       user.avaliacoes.push(newReview);
       
       users[userIndex] = user;
-      localStorage.setItem('usuarios', JSON.stringify(users));
+      // In a real implementation, you would write to users.json
       
       return user;
     }
