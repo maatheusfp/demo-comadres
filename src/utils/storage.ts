@@ -42,7 +42,7 @@ export interface User {
   id: number;
   nome: string;
   idade_mae: number;
-  faixa_filho: string;
+  faixa_filho?: string; // Tornando opcional
   horario_trabalho: string;
   localizacao: string;
   email: string;

@@ -61,6 +61,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				maternal: {
+					primary: 'hsl(var(--maternal-primary))',
+					light: 'hsl(var(--maternal-light))',
+					soft: 'hsl(var(--maternal-soft))',
+					accent: 'hsl(var(--maternal-accent))'
 				}
 			},
 			backgroundImage: {
