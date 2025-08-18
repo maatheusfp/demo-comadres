@@ -4,16 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { StorageService } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
-import { Heart, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 const Cadastro = () => {
   const [formData, setFormData] = useState({
     nome: "",
     idade_mae: "",
-    faixa_filho: "",
     horario_trabalho: "",
     localizacao: "",
     email: "",
@@ -22,15 +20,6 @@ const Cadastro = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const faixasEtarias = [
-    "0-1 ano",
-    "1-2 anos", 
-    "3-5 anos",
-    "6-8 anos",
-    "9-12 anos",
-    "13+ anos"
-  ];
-
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
@@ -38,7 +27,7 @@ const Cadastro = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const requiredFields = ['nome', 'idade_mae', 'faixa_filho', 'horario_trabalho', 'localizacao', 'email', 'senha'];
+    const requiredFields = ['nome', 'idade_mae', 'horario_trabalho', 'localizacao', 'email', 'senha'];
     const missingFields = requiredFields.filter(field => !formData[field as keyof typeof formData]);
     
     if (missingFields.length > 0) {
@@ -90,7 +79,11 @@ const Cadastro = () => {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex-1 text-center">
-            <Heart className="h-6 w-6 text-white mx-auto mb-2" />
+            <img 
+              src="/logo.png" 
+              alt="Match Mães Solo Logo" 
+              className="h-32 w-32 mx-auto mb-2 object-contain"
+            />
             <h1 className="text-2xl font-bold text-white">Cadastro</h1>
           </div>
         </div>
@@ -120,22 +113,6 @@ const Cadastro = () => {
                 max="60"
                 className="bg-background/50 border-border/50"
               />
-            </div>
-
-            <div className="space-y-2">
-              <Label>Faixa etária do(s) filho(s)</Label>
-              <Select onValueChange={(value) => handleInputChange('faixa_filho', value)}>
-                <SelectTrigger className="bg-background/50 border-border/50">
-                  <SelectValue placeholder="Selecione a faixa etária" />
-                </SelectTrigger>
-                <SelectContent>
-                  {faixasEtarias.map((faixa) => (
-                    <SelectItem key={faixa} value={faixa}>
-                      {faixa}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
             </div>
 
             <div className="space-y-2">

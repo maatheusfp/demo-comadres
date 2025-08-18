@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { StorageService } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
-import { Heart } from "lucide-react";
 import VerificationModal from "@/components/VerificationModal";
 
 const Login = () => {
@@ -65,11 +64,13 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gradient-primary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <div className="bg-white/20 p-4 rounded-full">
-              <Heart className="h-8 w-8 text-white" />
-            </div>
+        <div className="text-center mb-10">
+          <div className="flex justify-center mb-6">
+            <img 
+              src="/logo.png" 
+              alt="Match Mães Solo Logo" 
+              className="h-60 w-60 object-contain"
+            />
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Match Mães Solo</h1>
           <p className="text-white/80">Conecte-se com outras mães</p>
@@ -122,12 +123,17 @@ const Login = () => {
         </Card>
 
         <div className="mt-6 text-center">
-          <p className="text-white/60 text-sm">
+          <p className="text-white/60 text-sm mb-3">
             Usuários de teste disponíveis:
           </p>
-          <p className="text-white/80 text-xs mt-1">
-            maria@example.com (senha: 1234)
-          </p>
+          <div className="space-y-2">
+            <div className="text-white/80 text-xs bg-white/10 p-2 rounded">
+              <strong>Maria Silva:</strong> maria@example.com | Senha: 1234
+            </div>
+            <div className="text-white/80 text-xs bg-white/10 p-2 rounded">
+              <strong>Beatriz Santos:</strong> beatriz@example.com | Senha: beatriz123
+            </div>
+          </div>
         </div>
 
         <VerificationModal

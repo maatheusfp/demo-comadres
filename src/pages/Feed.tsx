@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StorageService, User } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
-import { Heart, MessageCircle, MapPin, Clock, User as UserIcon, LogOut, Settings, CheckCircle, Shield, Target } from "lucide-react";
+import { MessageCircle, MapPin, Clock, User as UserIcon, LogOut, Settings, CheckCircle, Shield, Target } from "lucide-react";
 import ChatList from "@/components/ChatList";
 
 const Feed = () => {
@@ -64,9 +64,11 @@ const Feed = () => {
       <div className="bg-gradient-primary p-4 shadow-soft">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-white/20 p-2 rounded-full">
-              <Heart className="h-5 w-5 text-white" />
-            </div>
+            <img 
+              src="/logo.png" 
+              alt="Match Mães Solo Logo" 
+              className="h-20 w-20 object-contain"
+            />
             <div>
               <h1 className="text-xl font-bold text-white">Match Mães Solo</h1>
               <p className="text-white/80 text-sm">Olá, {currentUser.nome}!</p>
@@ -139,13 +141,6 @@ const Feed = () => {
                     </p>
                     
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <UserIcon className="h-4 w-4 text-primary" />
-                        <Badge variant="secondary" className="bg-accent/50">
-                          Filhos: {user.faixa_filho}
-                        </Badge>
-                      </div>
-                      
                       <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4 text-primary" />
                         <span className="text-sm text-muted-foreground">

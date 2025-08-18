@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { StorageService, User, Chat as ChatType, Message } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
-import { ArrowLeft, Send, Heart, Baby, Check, X } from "lucide-react";
+import { ArrowLeft, Send, Baby, Check, X } from "lucide-react";
 
 const Chat = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -325,9 +325,11 @@ const Chat = () => {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <div className="bg-white/20 p-2 rounded-full">
-            <Heart className="h-5 w-5 text-white" />
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="Match Mães Solo Logo" 
+            className="h-20 w-20 object-contain"
+          />
           <div className="flex-1">
             <h1 className="text-lg font-semibold text-white">{otherUser.nome}</h1>
             <p className="text-white/80 text-sm">{otherUser.localizacao}</p>
@@ -352,7 +354,11 @@ const Chat = () => {
         {!chat || chat.mensagens.length === 0 ? (
           <div className="text-center py-12">
             <div className="bg-muted/50 p-6 rounded-lg max-w-md mx-auto">
-              <Heart className="h-8 w-8 text-primary mx-auto mb-3" />
+              <img 
+                src="/logo.png" 
+                alt="Match Mães Solo Logo" 
+                className="h-20 w-20 mx-auto mb-3 object-contain"
+              />
               <p className="text-muted-foreground">
                 Início da conversa com {otherUser.nome}
               </p>
