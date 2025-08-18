@@ -406,4 +406,89 @@ export class StorageService {
   static getRequestById(requestId: number): ChildDataRequest | null {
     return this.getChildDataRequests().find(req => req.id === requestId) || null;
   }
+
+  // Algoritmo de matching baseado nos dados dos filhos
+  static calculateChildrenSimilarity(user1: User, user2: User): number {
+    // Se algum usuário não tem dados de verificação ou filhos, retorna 0%
+    if (!user1.dados_verificacao?.filhos || !user2.dados_verificacao?.filhos) {
+      return 0;
+    }
+
+    const filhos1 = user1.dados_verificacao.filhos;
+    const filhos2 = user2.dados_verificacao.filhos;
+
+    let totalMatches = 0;
+    let totalComparisons = 0;
+
+    // Comparar cada filho do user1 com cada filho do user2
+    filhos1.forEach(filho1 => {
+      filhos2.forEach(filho2 => {
+        let matchCount = 0;
+        let comparisonCount = 0;
+
+        // 1. Comparar idade (tolerância de ±1 ano)
+        comparisonCount++;
+        if (Math.abs(filho1.idade - filho2.idade) <= 1) {
+          matchCount++;
+        }
+
+        // 2. Comparar restrições de tela
+        comparisonCount++;
+        if (filho1.restricoes_tela === filho2.restricoes_tela) {
+          matchCount++;
+        }
+
+        // 3. Comparar atividades permitidas
+        comparisonCount++;
+        const atividades1 = new Set(filho1.atividades_permitidas);
+        const atividades2 = new Set(filho2.atividades_permitidas);
+        
+        // Calcular interseção das atividades
+        const atividadesComuns = [...atividades1].filter(x => atividades2.has(x));
+        const totalAtividades = new Set([...atividades1, ...atividades2]).size;
+        
+        if (totalAtividades > 0) {
+          const atividadesSimilarity = atividadesComuns.length / totalAtividades;
+          matchCount += atividadesSimilarity;
+        }
+
+        totalMatches += matchCount;
+        totalComparisons += comparisonCount;
+      });
+    });
+
+    // Calcular porcentagem final
+    if (totalComparisons === 0) return 0;
+    
+    const similarity = (totalMatches / totalComparisons) * 100;
+    return Math.round(similarity);
+  }
+
+  static getUsersWithMatchPercentage(currentUserId: number): Array<User & { matchPercentage: number }> {
+    const users = this.getUsers();
+    const currentUser = users.find(u => u.id === currentUserId);
+    
+    if (!currentUser) return [];
+
+    // Filtrar outros usuários e calcular matching
+    const usersWithMatch = users
+      .filter(user => user.id !== currentUserId)
+      .map(user => ({
+        ...user,
+        matchPercentage: this.calculateChildrenSimilarity(currentUser, user)
+      }))
+      .sort((a, b) => b.matchPercentage - a.matchPercentage); // Ordenar por maior match
+
+    return usersWithMatch;
+  }
+
+  static getMatchingUsers(currentUserId: number, limit?: number): Array<User & { matchPercentage: number }> {
+    const usersWithMatch = this.getUsersWithMatchPercentage(currentUserId);
+    
+    if (limit) {
+      return usersWithMatch.slice(0, limit);
+    }
+    
+    return usersWithMatch;
+  }
 }
