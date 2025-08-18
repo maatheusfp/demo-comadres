@@ -139,5 +139,288 @@
         }
       ]
     }
+  },
+  {
+    "id": 5,
+    "nome": "Beatriz Santos",
+    "idade_mae": 29,
+    "faixa_filho": "3-5 anos",
+    "horario_trabalho": "08:00-17:00",
+    "localizacao": "São Paulo - SP",
+    "email": "beatriz@example.com",
+    "senha": "beatriz123",
+    "disponivel_cuidar": true,
+    "horario_disponibilidade": "17:30-19:30",
+    "observacoes_disponibilidade": "Experiência com crianças de 3 a 6 anos",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "22.333.444-5",
+      "cpf_mae": "222.333.444-55",
+      "historico_profissional": "Pedagoga há 6 anos",
+      "referencias": "Creche Mundo Infantil",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Gabriel",
+          "idade": 4,
+          "documentos": "RG: 11.222.333-4",
+          "alergias": "Alergia a amendoim",
+          "medicamentos": "",
+          "restricoes_tela": true,
+          "tempo_max_tela": "1 hora por dia",
+          "atividades_permitidas": ["Desenhar", "Brincar no parque", "Ler histórias", "Música"],
+          "observacoes_especiais": "Adora desenhar e ouvir música. Muito carinhoso com outras crianças."
+        }
+      ]
+    }
+  },
+  {
+    "id": 6,
+    "nome": "Juliana Costa",
+    "idade_mae": 33,
+    "faixa_filho": "3-5 anos",
+    "horario_trabalho": "09:00-18:00",
+    "localizacao": "São Paulo - SP",
+    "email": "juliana@example.com",
+    "senha": "jul2024",
+    "disponivel_cuidar": false,
+    "horario_disponibilidade": "",
+    "observacoes_disponibilidade": "",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "33.444.555-6",
+      "cpf_mae": "333.444.555-66",
+      "historico_profissional": "Psicóloga infantil há 7 anos",
+      "referencias": "Clínica Desenvolvimento Infantil",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Isabella",
+          "idade": 5,
+          "documentos": "RG: 44.555.666-7",
+          "alergias": "",
+          "medicamentos": "",
+          "restricoes_tela": true,
+          "tempo_max_tela": "1 hora por dia",
+          "atividades_permitidas": ["Desenhar", "Música", "Ler histórias", "Pintura"],
+          "observacoes_especiais": "Muito criativa, adora atividades artísticas. Gosta de brincar com outras crianças."
+        }
+      ]
+    }
+  },
+  {
+    "id": 7,
+    "nome": "Patricia Oliveira",
+    "idade_mae": 31,
+    "faixa_filho": "1-2 anos",
+    "horario_trabalho": "08:00-16:00",
+    "localizacao": "Rio de Janeiro - RJ",
+    "email": "patricia@example.com",
+    "senha": "pat456",
+    "disponivel_cuidar": true,
+    "horario_disponibilidade": "16:30-19:00",
+    "observacoes_disponibilidade": "Experiência com bebês e crianças pequenas",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "55.666.777-8",
+      "cpf_mae": "555.666.777-88",
+      "historico_profissional": "Enfermeira pediatra há 4 anos",
+      "referencias": "Hospital Infantil RJ",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Miguel",
+          "idade": 2,
+          "documentos": "Certidão de nascimento",
+          "alergias": "Lactose",
+          "medicamentos": "Vitamina D",
+          "restricoes_tela": true,
+          "tempo_max_tela": "30 minutos por dia",
+          "atividades_permitidas": ["Brincar com blocos", "Correr no quintal", "Banho de mangueira"],
+          "observacoes_especiais": "Muito ativo, gosta de brincar ao ar livre. Ainda usa fralda."
+        }
+      ]
+    }
+  },
+  {
+    "id": 8,
+    "nome": "Renata Alves",
+    "idade_mae": 34,
+    "faixa_filho": "6-8 anos",
+    "horario_trabalho": "07:30-16:30",
+    "localizacao": "Belo Horizonte - MG",
+    "email": "renata@example.com",
+    "senha": "renata789",
+    "disponivel_cuidar": true,
+    "horario_disponibilidade": "17:00-19:00",
+    "observacoes_disponibilidade": "Posso ajudar com lição de casa e atividades esportivas",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "66.777.888-9",
+      "cpf_mae": "666.777.888-99",
+      "historico_profissional": "Educadora física há 9 anos",
+      "referencias": "Academia Kids Sports",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Rafael",
+          "idade": 7,
+          "documentos": "RG: 88.999.000-1",
+          "alergias": "",
+          "medicamentos": "",
+          "restricoes_tela": true,
+          "tempo_max_tela": "2 horas por dia",
+          "atividades_permitidas": ["Futebol", "Natação", "Lego", "Videogame"],
+          "observacoes_especiais": "Apaixonado por esportes, especialmente futebol. Muito sociável."
+        }
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "nome": "Camila Ferreira",
+    "idade_mae": 27,
+    "faixa_filho": "0-1 ano",
+    "horario_trabalho": "09:00-17:00",
+    "localizacao": "Curitiba - PR",
+    "email": "camila@example.com",
+    "senha": "cam2024",
+    "disponivel_cuidar": false,
+    "horario_disponibilidade": "",
+    "observacoes_disponibilidade": "",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "77.888.999-0",
+      "cpf_mae": "777.888.999-00",
+      "historico_profissional": "Nutricionista há 3 anos",
+      "referencias": "Clínica Nutrir Bem",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Arthur",
+          "idade": 1,
+          "documentos": "Certidão de nascimento",
+          "alergias": "",
+          "medicamentos": "Vitaminas conforme pediatra",
+          "restricoes_tela": false,
+          "tempo_max_tela": "",
+          "atividades_permitidas": ["Mamar", "Dormir", "Brincar no tapete", "Banho"],
+          "observacoes_especiais": "Bebê muito calmo, dorme bem durante a noite. Começando a engatinhar."
+        }
+      ]
+    }
+  },
+  {
+    "id": 10,
+    "nome": "Larissa Rodrigues",
+    "idade_mae": 30,
+    "faixa_filho": "3-5 anos",
+    "horario_trabalho": "08:30-17:30",
+    "localizacao": "São Paulo - SP",
+    "email": "larissa@example.com",
+    "senha": "lari123",
+    "disponivel_cuidar": true,
+    "horario_disponibilidade": "18:00-20:00",
+    "observacoes_disponibilidade": "Adoro brincar e fazer atividades criativas com crianças",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "88.999.000-1",
+      "cpf_mae": "888.999.000-11",
+      "historico_profissional": "Arte-terapeuta há 5 anos",
+      "referencias": "Centro Terapêutico Infantil",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Sophia",
+          "idade": 4,
+          "documentos": "RG: 99.000.111-2",
+          "alergias": "",
+          "medicamentos": "",
+          "restricoes_tela": true,
+          "tempo_max_tela": "1 hora por dia",
+          "atividades_permitidas": ["Desenhar", "Pintura", "Música", "Ler histórias"],
+          "observacoes_especiais": "Muito artística, adora desenhar e pintar. Gosta de música clássica."
+        }
+      ]
+    }
+  },
+  {
+    "id": 11,
+    "nome": "Daniela Martins",
+    "idade_mae": 36,
+    "faixa_filho": "6-8 anos",
+    "horario_trabalho": "07:00-15:00",
+    "localizacao": "Belo Horizonte - MG",
+    "email": "daniela@example.com",
+    "senha": "dani456",
+    "disponivel_cuidar": true,
+    "horario_disponibilidade": "15:30-18:30",
+    "observacoes_disponibilidade": "Experiência com crianças em idade escolar",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "99.000.111-2",
+      "cpf_mae": "999.000.111-22",
+      "historico_profissional": "Professora de educação física há 12 anos",
+      "referencias": "Escola Estadual MG",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Mateus",
+          "idade": 8,
+          "documentos": "RG: 00.111.222-3",
+          "alergias": "",
+          "medicamentos": "",
+          "restricoes_tela": true,
+          "tempo_max_tela": "2 horas por dia",
+          "atividades_permitidas": ["Futebol", "Lego", "Natação", "Videogame"],
+          "observacoes_especiais": "Atlético e competitivo. Gosta de jogos em equipe e desafios."
+        },
+        {
+          "nome": "Valentina",
+          "idade": 6,
+          "documentos": "RG: 11.222.333-4",
+          "alergias": "",
+          "medicamentos": "",
+          "restricoes_tela": true,
+          "tempo_max_tela": "1 hora por dia",
+          "atividades_permitidas": ["Dança", "Ginástica", "Desenhar", "Música"],
+          "observacoes_especiais": "Muito gracil, adora dançar e fazer ginástica. Sonha em ser bailarina."
+        }
+      ]
+    }
+  },
+  {
+    "id": 12,
+    "nome": "Amanda Silva",
+    "idade_mae": 26,
+    "faixa_filho": "1-2 anos",
+    "horario_trabalho": "10:00-18:00",
+    "localizacao": "Rio de Janeiro - RJ",
+    "email": "amanda@example.com",
+    "senha": "amanda789",
+    "disponivel_cuidar": false,
+    "horario_disponibilidade": "",
+    "observacoes_disponibilidade": "",
+    "verificado": true,
+    "dados_verificacao": {
+      "rg_mae": "00.111.222-3",
+      "cpf_mae": "000.111.222-33",
+      "historico_profissional": "Fisioterapeuta infantil há 2 anos",
+      "referencias": "Clínica Reabilitar Kids",
+      "antecedentes_criminais": "Nada consta",
+      "filhos": [
+        {
+          "nome": "Enzo",
+          "idade": 1,
+          "documentos": "Certidão de nascimento",
+          "alergias": "",
+          "medicamentos": "",
+          "restricoes_tela": true,
+          "tempo_max_tela": "20 minutos por dia",
+          "atividades_permitidas": ["Brincar com blocos", "Engatinhar", "Banho", "Música"],
+          "observacoes_especiais": "Muito curioso, gosta de explorar. Adora música e já tenta dançar."
+        }
+      ]
+    }
   }
 ]

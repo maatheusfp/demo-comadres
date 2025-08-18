@@ -5,11 +5,11 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StorageService, User } from "@/utils/storage";
 import { toast } from "@/hooks/use-toast";
-import { Heart, MessageCircle, MapPin, Clock, User as UserIcon, LogOut, Settings, CheckCircle, Shield } from "lucide-react";
+import { Heart, MessageCircle, MapPin, Clock, User as UserIcon, LogOut, Settings, CheckCircle, Shield, Target } from "lucide-react";
 import ChatList from "@/components/ChatList";
 
 const Feed = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [usersWithMatch, setUsersWithMatch] = useState<Array<User & { matchPercentage: number }>>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
@@ -21,8 +21,8 @@ const Feed = () => {
     }
 
     setCurrentUser(user);
-    const allUsers = StorageService.getUsers();
-    setUsers(allUsers.filter(u => u.id !== user.id));
+    const matchingUsers = StorageService.getMatchingUsers(user.id);
+    setUsersWithMatch(matchingUsers);
   }, [navigate]);
 
   const handleStartChat = (otherUser: User) => {
@@ -36,6 +36,22 @@ const Feed = () => {
       description: "Até logo!",
     });
     navigate("/login");
+  };
+
+  const getMatchColor = (percentage: number) => {
+    if (percentage >= 80) return "text-green-600 bg-green-50 border-green-200";
+    if (percentage >= 60) return "text-blue-600 bg-blue-50 border-blue-200";
+    if (percentage >= 40) return "text-yellow-600 bg-yellow-50 border-yellow-200";
+    if (percentage >= 20) return "text-orange-600 bg-orange-50 border-orange-200";
+    return "text-red-600 bg-red-50 border-red-200";
+  };
+
+  const getMatchLabel = (percentage: number) => {
+    if (percentage >= 80) return "Excelente compatibilidade";
+    if (percentage >= 60) return "Boa compatibilidade";
+    if (percentage >= 40) return "Compatibilidade moderada";
+    if (percentage >= 20) return "Baixa compatibilidade";
+    return "Pouca compatibilidade";
   };
 
   if (!currentUser) {
@@ -82,14 +98,14 @@ const Feed = () => {
       <div className="p-4 space-y-4">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-foreground mb-2">
-            Conecte-se com outras mães
+            Suas Compatibilidades
           </h2>
           <p className="text-muted-foreground">
-            Encontre mães na sua região com filhos de idades similares
+            Mães ordenadas por compatibilidade baseada nos dados dos filhos
           </p>
         </div>
 
-        {users.length === 0 ? (
+        {usersWithMatch.length === 0 ? (
           <Card className="p-8 text-center bg-gradient-card shadow-card">
             <UserIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <p className="text-muted-foreground">
@@ -98,13 +114,26 @@ const Feed = () => {
           </Card>
         ) : (
           <div className="grid gap-4">
-            {users.map((user) => (
+            {usersWithMatch.map((user) => (
               <Card key={user.id} className="p-6 bg-gradient-card shadow-card border-border/50 hover:shadow-soft transition-all duration-300">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-foreground mb-1">
-                      {user.nome}
-                    </h3>
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="text-xl font-semibold text-foreground">
+                        {user.nome}
+                      </h3>
+                      <div className={`px-3 py-1 rounded-full border ${getMatchColor(user.matchPercentage)}`}>
+                        <div className="flex items-center gap-1">
+                          <Target className="h-3 w-3" />
+                          <span className="text-sm font-medium">{user.matchPercentage}% match</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <p className="text-xs text-muted-foreground mb-3 italic">
+                      {getMatchLabel(user.matchPercentage)}
+                    </p>
+
                     <p className="text-muted-foreground text-sm mb-2">
                       {user.idade_mae} anos
                     </p>
