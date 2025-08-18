@@ -70,7 +70,7 @@ const Feed = () => {
               className="h-20 w-20 object-contain"
             />
             <div>
-              <h1 className="text-xl font-bold text-white">Match Mães Solo</h1>
+              <h1 className="text-xl font-bold text-white">Comadres</h1>
               <p className="text-white/80 text-sm">Olá, {currentUser.nome}!</p>
             </div>
           </div>
