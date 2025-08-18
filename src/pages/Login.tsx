@@ -72,8 +72,8 @@ const Login = () => {
               className="h-60 w-60 object-contain"
             />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Match Mães Solo</h1>
-          <p className="text-white/80">Conecte-se com outras mães</p>
+          <h1 className="text-3xl font-bold text-white mb-2">Comadres</h1>
+          <p className="text-white/80">Conectando Pessoas Através do Cuidado</p>
         </div>
 
         <Card className="p-6 bg-gradient-card shadow-card border-0">
